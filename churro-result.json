@@ -2,11 +2,16 @@
   "hasChurros": false,
   "hasTodayDate": false,
   "dateChecked": "Tuesday, November 25, 2025",
-  "timestamp": "2025-11-25T04:35:50.940Z",
+  "timestamp": "2025-11-25T04:43:14.472Z",
   "debug": [
     "Starting browser...",
     "Navigating...",
-    "Waiting...",
-    "Got 1833 chars"
-  ]
+    "Waiting 10 seconds for content to load...",
+    "Got 1833 chars",
+    "First 500 chars: ← NIU.edu\n(current)\nA-Z Index\nCalendar\nDirectory\nLibraries\nMake a Gift\nInfo for \nQuick Links \nCampus Dining Services\nDivision of Student Affairs\nSearch NIU\n \nSUBMIT\nAbout \nWhere to Eat\nMeal Plans \nNutrition and Wellness \nCatering\nFAQ\nCampus Dining Services Nutrition & Wellness MyDining\nMyDining\n\nMyDining provides nutrition and food allergy information to help you make decisions about the foods you choose to fill your plate. Select a location below to start building your meal.\n\nNorthern Illinois ",
+    "Looking for: Tuesday, November 25, 2025",
+    "Has \"churro\": false",
+    "Has date: false"
+  ],
+  "pagePreview": "← NIU.edu\n(current)\nA-Z Index\nCalendar\nDirectory\nLibraries\nMake a Gift\nInfo for \nQuick Links \nCampus Dining Services\nDivision of Student Affairs\nSearch NIU\n \nSUBMIT\nAbout \nWhere to Eat\nMeal Plans \nNutrition and Wellness \nCatering\nFAQ\nCampus Dining Services Nutrition & Wellness MyDining\nMyDining\n\nMyDining provides nutrition and food allergy information to help you make decisions about the foods you choose to fill your plate. Select a location below to start building your meal.\n\nNorthern Illinois University understands that students have a positive experience on campus and achieve their best academic performance when well-nourished through a community dining setting. That is why we have created the MyDining program in partnership with the School of Family, Consumer, and Nutrition Science.\n\nSelect a Location\nPatterson Dining\n\t\nNeptune Dining\n\n\n\nWhile you're building your meal, you'll see these icons:\n\nAllergen Caution Label\n\nEggs\n\nFish\n\nMilk/Dairy\n\nPeanuts\n\nSesame\n\nShellfish\n\nSoy\n\nTree Nu"
 }
