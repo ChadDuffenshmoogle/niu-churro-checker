@@ -9,7 +9,7 @@ const fs = require('fs');
     const browser = await chromium.launch();
     const page = await browser.newPage();
     
-    debug.push('Navigating to main page...');
+    debug.push('Navigating...');
     await page.goto('https://saapps.niu.edu/NetNutrition/menus', { waitUntil: 'networkidle' });
     await page.waitForTimeout(3000);
     
@@ -27,42 +27,45 @@ const fs = require('fs');
                    'July', 'August', 'September', 'October', 'November', 'December'];
     const todayString = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
     
-    debug.push(`Today is: ${todayString}`);
-    
-    // Get all visible text to see structure
-    const allText = await page.innerText('body');
-    debug.push(`Page has today's date: ${allText.includes(todayString)}`);
+    debug.push(`Looking for: ${todayString}`);
     
     let hasChurros = false;
     const meals = ['Breakfast', 'Lunch', 'Dinner'];
     
+    // Find today's row, then get meal links from that row
+    const todayRow = page.locator(`td:has-text("${todayString}")`).first();
+    
     for (const meal of meals) {
       try {
-        debug.push(`Trying to click ${meal}...`);
+        debug.push(`Checking ${meal}...`);
         
-        // Just click any link with that meal name
-        await page.click(`a:has-text("${meal}")`, { timeout: 3000 });
-        await page.waitForTimeout(4000);
+        // Find the meal link within today's row
+        const mealLink = todayRow.locator(`..`).locator(`a:has-text("${meal}")`).first();
         
-        const mealText = await page.innerText('body');
-        const mealDateVisible = mealText.includes(todayString);
-        
-        debug.push(`${meal} clicked, has today's date: ${mealDateVisible}`);
-        
-        if (mealText.toLowerCase().includes('churro')) {
-          hasChurros = true;
-          debug.push(`✓✓✓ CHURROS FOUND in ${meal}! ✓✓✓`);
-          break;
+        if (await mealLink.isVisible({ timeout: 2000 })) {
+          await mealLink.click();
+          await page.waitForTimeout(5000);
+          
+          const mealText = await page.innerText('body');
+          debug.push(`${meal}: loaded, checking for churros...`);
+          
+          if (mealText.toLowerCase().includes('churro')) {
+            hasChurros = true;
+            debug.push(`🎉 CHURROS FOUND IN ${meal.toUpperCase()}! 🎉`);
+            break;
+          } else {
+            debug.push(`${meal}: no churros`);
+          }
+          
+          // Go back to menu list
+          await page.click('text=Back');
+          await page.waitForTimeout(3000);
         } else {
-          debug.push(`${meal}: no churros found`);
+          debug.push(`${meal}: not available`);
         }
         
-        // Go back
-        await page.goBack();
-        await page.waitForTimeout(3000);
-        
       } catch (err) {
-        debug.push(`${meal}: couldn't click - ${err.message}`);
+        debug.push(`${meal}: error - ${err.message}`);
       }
     }
     
