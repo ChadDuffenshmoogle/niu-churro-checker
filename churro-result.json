@@ -1,17 +1,18 @@
 {
   "hasChurros": false,
-  "hasTodayDate": false,
+  "hasTodayDate": true,
   "dateChecked": "Tuesday, November 25, 2025",
-  "timestamp": "2025-11-25T04:43:14.472Z",
+  "timestamp": "2025-11-25T04:54:39.071Z",
   "debug": [
     "Starting browser...",
-    "Navigating...",
-    "Waiting 10 seconds for content to load...",
-    "Got 1833 chars",
-    "First 500 chars: ← NIU.edu\n(current)\nA-Z Index\nCalendar\nDirectory\nLibraries\nMake a Gift\nInfo for \nQuick Links \nCampus Dining Services\nDivision of Student Affairs\nSearch NIU\n \nSUBMIT\nAbout \nWhere to Eat\nMeal Plans \nNutrition and Wellness \nCatering\nFAQ\nCampus Dining Services Nutrition & Wellness MyDining\nMyDining\n\nMyDining provides nutrition and food allergy information to help you make decisions about the foods you choose to fill your plate. Select a location below to start building your meal.\n\nNorthern Illinois ",
+    "Navigating to main page...",
+    "Clicking Neptune Dining...",
+    "Clicking Neptune Daily Menu...",
+    "Got 1209 chars after Neptune Daily Menu",
+    "First 1000 chars: ← NIU.edu\n(current)\nA-Z Index\nCalendar\nDirectory\nLibraries\nMake a Gift\nInfo for \nQuick Links \nCampus Dining Services\nDivision of Student Affairs\nSearch NIU\n \nSUBMIT\nAbout \nWhere to Eat\nMeal Plans \nNutrition and Wellness \nCatering\nFAQ\nCampus Dining Services Nutrition & Wellness MyDining\nMenus for Neptune Daily Menu\n Back\nSunday, November 23, 2025\n\nLunch\nDinner\n\n\nMonday, November 24, 2025\n\nBreakfast\nLunch\nDinner\n\n\nTuesday, November 25, 2025\n\nBreakfast\nLunch\nDinner\n Back\nSearch\n Clear Search\nMy Meal\n Meal Nutrition\n Clear My Meal\nHide Allergens\n\tAllergen Caution Label\n\n\n\tEggs\n\n\n\tFish\n\n\n\tMilk/Dairy\n\n\n\tPeanuts\n\n\n\tSesame\n\n\n\tSoy\n\n\n\tTree Nuts\n\n\n\tWheat\nShow Only\n\tGluten-Friendly\n\n\n\tHealthy Huskie\n\n\n\tVegan\n\n\n\tVegetarian\n\n\n Clear Filters\n\nDisclaimer\n\nNutrition & Wellness\nMyDining\nAlternate Diets, Allergies and Intolerances\nMyPantry: Your Safe Place for Food\nRecoup Soup\nAsk Our Nutrition Team\nContact Us\n\nCampus Dining Services\ndining@niu.edu\n\n\nContact Us\n\n      \n\nApply to NIU\nVisit Campus\nDirectio",
     "Looking for: Tuesday, November 25, 2025",
     "Has \"churro\": false",
-    "Has date: false"
+    "Has today's date visible: true"
   ],
-  "pagePreview": "← NIU.edu\n(current)\nA-Z Index\nCalendar\nDirectory\nLibraries\nMake a Gift\nInfo for \nQuick Links \nCampus Dining Services\nDivision of Student Affairs\nSearch NIU\n \nSUBMIT\nAbout \nWhere to Eat\nMeal Plans \nNutrition and Wellness \nCatering\nFAQ\nCampus Dining Services Nutrition & Wellness MyDining\nMyDining\n\nMyDining provides nutrition and food allergy information to help you make decisions about the foods you choose to fill your plate. Select a location below to start building your meal.\n\nNorthern Illinois University understands that students have a positive experience on campus and achieve their best academic performance when well-nourished through a community dining setting. That is why we have created the MyDining program in partnership with the School of Family, Consumer, and Nutrition Science.\n\nSelect a Location\nPatterson Dining\n\t\nNeptune Dining\n\n\n\nWhile you're building your meal, you'll see these icons:\n\nAllergen Caution Label\n\nEggs\n\nFish\n\nMilk/Dairy\n\nPeanuts\n\nSesame\n\nShellfish\n\nSoy\n\nTree Nu"
+  "pagePreview": "← NIU.edu\n(current)\nA-Z Index\nCalendar\nDirectory\nLibraries\nMake a Gift\nInfo for \nQuick Links \nCampus Dining Services\nDivision of Student Affairs\nSearch NIU\n \nSUBMIT\nAbout \nWhere to Eat\nMeal Plans \nNutrition and Wellness \nCatering\nFAQ\nCampus Dining Services Nutrition & Wellness MyDining\nMenus for Neptune Daily Menu\n Back\nSunday, November 23, 2025\n\nLunch\nDinner\n\n\nMonday, November 24, 2025\n\nBreakfast\nLunch\nDinner\n\n\nTuesday, November 25, 2025\n\nBreakfast\nLunch\nDinner\n Back\nSearch\n Clear Search\nMy Meal\n Meal Nutrition\n Clear My Meal\nHide Allergens\n\tAllergen Caution Label\n\n\n\tEggs\n\n\n\tFish\n\n\n\tMilk/Dairy\n\n\n\tPeanuts\n\n\n\tSesame\n\n\n\tSoy\n\n\n\tTree Nuts\n\n\n\tWheat\nShow Only\n\tGluten-Friendly\n\n\n\tHealthy Huskie\n\n\n\tVegan\n\n\n\tVegetarian\n\n\n Clear Filters\n\nDisclaimer\n\nNutrition & Wellness\nMyDining\nAlternate Diets, Allergies and Intolerances\nMyPantry: Your Safe Place for Food\nRecoup Soup\nAsk Our Nutrition Team\nContact Us\n\nCampus Dining Services\ndining@niu.edu\n\n\nContact Us\n\n      \n\nApply to NIU\nVisit Campus\nDirections/Maps\nContact Us\n\nEmergency Info\nAccessibility\nJobs @ NIU\nHuskie Athletics\n© 2025 Board of Trustees of Northern Illinois University. All rights reserved. Privacy Notice\n1425 W. Lincoln Hwy., DeKalb, IL 60115"
 }
