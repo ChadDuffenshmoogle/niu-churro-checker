@@ -27,41 +27,42 @@ const fs = require('fs');
                    'July', 'August', 'September', 'October', 'November', 'December'];
     const todayString = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
     
-    debug.push(`Looking for meals on: ${todayString}`);
+    debug.push(`Today is: ${todayString}`);
+    
+    // Get all visible text to see structure
+    const allText = await page.innerText('body');
+    debug.push(`Page has today's date: ${allText.includes(todayString)}`);
     
     let hasChurros = false;
     const meals = ['Breakfast', 'Lunch', 'Dinner'];
     
     for (const meal of meals) {
       try {
-        debug.push(`Checking ${meal}...`);
+        debug.push(`Trying to click ${meal}...`);
         
-        // Find the date section, then click the meal link
-        const mealLink = page.locator(`text=${todayString}`).locator('..').locator(`text=${meal}`).first();
+        // Just click any link with that meal name
+        await page.click(`a:has-text("${meal}")`, { timeout: 3000 });
+        await page.waitForTimeout(4000);
         
-        if (await mealLink.isVisible({ timeout: 2000 })) {
-          await mealLink.click();
-          await page.waitForTimeout(3000);
-          
-          const mealText = await page.innerText('body');
-          debug.push(`${meal}: ${mealText.length} chars`);
-          
-          if (mealText.toLowerCase().includes('churro')) {
-            hasChurros = true;
-            debug.push(`✓ CHURROS FOUND in ${meal}!`);
-            break; // Found churros, no need to check other meals
-          } else {
-            debug.push(`${meal}: no churros`);
-          }
-          
-          // Go back to menu list
-          await page.click('text=Back');
-          await page.waitForTimeout(2000);
+        const mealText = await page.innerText('body');
+        const mealDateVisible = mealText.includes(todayString);
+        
+        debug.push(`${meal} clicked, has today's date: ${mealDateVisible}`);
+        
+        if (mealText.toLowerCase().includes('churro')) {
+          hasChurros = true;
+          debug.push(`✓✓✓ CHURROS FOUND in ${meal}! ✓✓✓`);
+          break;
         } else {
-          debug.push(`${meal}: not available today`);
+          debug.push(`${meal}: no churros found`);
         }
+        
+        // Go back
+        await page.goBack();
+        await page.waitForTimeout(3000);
+        
       } catch (err) {
-        debug.push(`${meal}: error - ${err.message}`);
+        debug.push(`${meal}: couldn't click - ${err.message}`);
       }
     }
     
