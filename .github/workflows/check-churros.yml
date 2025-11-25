@@ -2,8 +2,8 @@ name: Check for Churros
 
 on:
   schedule:
-    - cron: '0 */1 * * *'  # Every hour
-  workflow_dispatch:  # Manual trigger
+    - cron: '0 */1 * * *'
+  workflow_dispatch:
 
 jobs:
   check:
@@ -16,12 +16,13 @@ jobs:
         with:
           node-version: '18'
       
-      - name: Install dependencies
+      - name: Install Playwright
         run: |
-          npm install puppeteer
+          npm install playwright
+          npx playwright install chromium
       
       - name: Check for churros
-        run: node check-churros.js
+        run: node check-churros-playwright.js
       
       - name: Commit results
         run: |
