@@ -1,0 +1,12 @@
+{
+  "hasChurros": false,
+  "hasTodayDate": false,
+  "dateChecked": "Tuesday, November 25, 2025",
+  "timestamp": "2025-11-25T04:35:50.940Z",
+  "debug": [
+    "Starting browser...",
+    "Navigating...",
+    "Waiting...",
+    "Got 1833 chars"
+  ]
+}
