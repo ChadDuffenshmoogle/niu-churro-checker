@@ -1,0 +1,32 @@
+name: Check for Churros
+
+on:
+  schedule:
+    - cron: '0 */1 * * *'  # Every hour
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: |
+          npm install puppeteer
+      
+      - name: Check for churros
+        run: node check-churros.js
+      
+      - name: Commit results
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add churro-result.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update churro status"
+          git push
