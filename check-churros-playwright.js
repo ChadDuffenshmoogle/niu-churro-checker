@@ -9,15 +9,21 @@ const fs = require('fs');
     const browser = await chromium.launch();
     const page = await browser.newPage();
     
-    debug.push('Navigating...');
+    debug.push('Navigating to main page...');
     await page.goto('https://saapps.niu.edu/NetNutrition/menus', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(3000);
     
-    debug.push('Waiting 10 seconds for content to load...');
-    await page.waitForTimeout(10000);
+    debug.push('Clicking Neptune Dining...');
+    await page.click('text=Neptune Dining');
+    await page.waitForTimeout(3000);
+    
+    debug.push('Clicking Neptune Daily Menu...');
+    await page.click('text=Neptune Daily Menu');
+    await page.waitForTimeout(5000);
     
     const pageText = await page.innerText('body');
-    debug.push(`Got ${pageText.length} chars`);
-    debug.push(`First 500 chars: ${pageText.substring(0, 500)}`);
+    debug.push(`Got ${pageText.length} chars after Neptune Daily Menu`);
+    debug.push(`First 1000 chars: ${pageText.substring(0, 1000)}`);
     
     const today = new Date();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -32,7 +38,7 @@ const fs = require('fs');
     const hasTodayDate = textLower.includes(todayString.toLowerCase());
     
     debug.push(`Has "churro": ${hasChurros}`);
-    debug.push(`Has date: ${hasTodayDate}`);
+    debug.push(`Has today's date visible: ${hasTodayDate}`);
     
     await browser.close();
     
@@ -42,7 +48,7 @@ const fs = require('fs');
       dateChecked: todayString, 
       timestamp: new Date().toISOString(), 
       debug,
-      pagePreview: pageText.substring(0, 1000)
+      pagePreview: pageText.substring(0, 1500)
     };
     fs.writeFileSync('churro-result.json', JSON.stringify(result, null, 2));
     
