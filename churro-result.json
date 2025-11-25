@@ -2,20 +2,21 @@
   "hasChurros": false,
   "hasTodayDate": true,
   "dateChecked": "Tuesday, November 25, 2025",
-  "timestamp": "2025-11-25T05:40:52.344Z",
+  "timestamp": "2025-11-25T06:19:08.571Z",
   "debug": [
     "Starting browser...",
-    "Navigating to main page...",
+    "Navigating...",
     "Clicking Neptune Dining...",
     "Clicking Neptune Daily Menu...",
-    "Today is: Tuesday, November 25, 2025",
-    "Page has today's date: true",
-    "Trying to click Breakfast...",
-    "Breakfast clicked, has today's date: false",
-    "Breakfast: no churros found",
-    "Trying to click Lunch...",
-    "Lunch: couldn't click - page.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator('a:has-text(\"Lunch\")')\n",
-    "Trying to click Dinner...",
-    "Dinner: couldn't click - page.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator('a:has-text(\"Dinner\")')\n"
+    "Looking for: Tuesday, November 25, 2025",
+    "Checking Breakfast...",
+    "Breakfast: loaded, checking for churros...",
+    "Breakfast: no churros",
+    "Checking Lunch...",
+    "Lunch: loaded, checking for churros...",
+    "Lunch: no churros",
+    "Checking Dinner...",
+    "Dinner: loaded, checking for churros...",
+    "Dinner: no churros"
   ]
 }
