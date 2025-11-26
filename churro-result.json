@@ -1,22 +1,19 @@
 {
   "hasChurros": false,
   "hasTodayDate": true,
-  "dateChecked": "Tuesday, November 25, 2025",
-  "timestamp": "2025-11-25T23:18:10.526Z",
+  "dateChecked": "Wednesday, November 26, 2025",
+  "timestamp": "2025-11-26T01:06:53.672Z",
   "debug": [
     "Starting browser...",
     "Navigating...",
     "Clicking Neptune Dining...",
     "Clicking Neptune Daily Menu...",
-    "Looking for: Tuesday, November 25, 2025",
+    "Looking for: Wednesday, November 26, 2025",
     "Checking Breakfast...",
-    "Breakfast: loaded, checking for churros...",
-    "Breakfast: no churros",
+    "Breakfast: not available",
     "Checking Lunch...",
-    "Lunch: loaded, checking for churros...",
-    "Lunch: no churros",
+    "Lunch: not available",
     "Checking Dinner...",
-    "Dinner: loaded, checking for churros...",
-    "Dinner: no churros"
+    "Dinner: not available"
   ]
 }
