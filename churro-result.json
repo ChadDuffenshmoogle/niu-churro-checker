@@ -1,19 +1,27 @@
 {
   "hasChurros": false,
-  "hasTodayDate": true,
+  "hasTodayDate": false,
+  "futureChurros": [],
   "dateChecked": "Thursday, November 27, 2025",
-  "timestamp": "2025-11-27T05:19:28.071Z",
+  "timestamp": "2025-11-27T05:49:02.423Z",
   "debug": [
     "Starting browser...",
     "Navigating...",
     "Clicking Neptune Dining...",
     "Clicking Neptune Daily Menu...",
-    "Looking for: Thursday, November 27, 2025",
-    "Checking Breakfast...",
-    "Breakfast: not available",
-    "Checking Lunch...",
-    "Lunch: not available",
-    "Checking Dinner...",
-    "Dinner: not available"
+    "Found 3 dates on page: Tuesday, November 25, 2025; Monday, December 1, 2025; Tuesday, December 2, 2025",
+    "Today is: Thursday, November 27, 2025",
+    "\n--- Checking Tuesday, November 25, 2025 ---",
+    "Tuesday, November 25, 2025 - Breakfast: no churros",
+    "Tuesday, November 25, 2025 - Lunch: no churros",
+    "Tuesday, November 25, 2025 - Dinner: no churros",
+    "\n--- Checking Monday, December 1, 2025 ---",
+    "Monday, December 1, 2025 - Breakfast: no churros",
+    "Monday, December 1, 2025 - Lunch: no churros",
+    "Monday, December 1, 2025 - Dinner: no churros",
+    "\n--- Checking Tuesday, December 2, 2025 ---",
+    "Tuesday, December 2, 2025 - Breakfast: no churros",
+    "Tuesday, December 2, 2025 - Lunch: no churros",
+    "Tuesday, December 2, 2025 - Dinner: no churros"
   ]
 }
