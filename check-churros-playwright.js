@@ -1,4 +1,6 @@
 const { chromium } = require('playwright');
+const fs = require('fs');
+
 async function sendDiscordNotification(message) {
   const webhookUrl = process.env.DISCORD_WEBHOOK;
   if (!webhookUrl) return;
@@ -18,14 +20,24 @@ async function sendDiscordNotification(message) {
   }
 }
 
-const fs = require('fs');
-
 (async () => {
   const debug = [];
+  let timeout;
   
   try {
+    // Set max runtime - abort after 10 minutes
+    timeout = setTimeout(() => {
+      debug.push('TIMEOUT: Aborting after 10 minutes');
+      fs.writeFileSync('churro-result.json', JSON.stringify({ 
+        error: 'Timeout after 10 minutes',
+        timestamp: new Date().toISOString(),
+        debug
+      }, null, 2));
+      process.exit(1);
+    }, 10 * 60 * 1000);
+    
     debug.push('Starting browser...');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({ timeout: 60000 });
     const page = await browser.newPage();
     
     const today = new Date();
@@ -49,15 +61,15 @@ const fs = require('fs');
       debug.push(`\n========== CHECKING ${hall.name.toUpperCase()} ==========`);
       
       debug.push('Navigating to main page...');
-      await page.goto('https://saapps.niu.edu/NetNutrition/menus', { waitUntil: 'networkidle' });
+      await page.goto('https://saapps.niu.edu/NetNutrition/menus', { waitUntil: 'networkidle', timeout: 30000 });
       await page.waitForTimeout(3000);
       
       debug.push(`Clicking ${hall.link}...`);
-      await page.click(`text=${hall.link}`);
+      await page.click(`text=${hall.link}`, { timeout: 10000 });
       await page.waitForTimeout(3000);
       
       debug.push(`Clicking ${hall.submenu}...`);
-      await page.click(`text=${hall.submenu}`);
+      await page.click(`text=${hall.submenu}`, { timeout: 10000 });
       await page.waitForTimeout(5000);
       
       const pageText = await page.innerText('body');
@@ -77,7 +89,7 @@ const fs = require('fs');
             const mealLink = dateRow.locator(`..`).locator(`a:has-text("${meal}")`).first();
             
             if (await mealLink.isVisible({ timeout: 2000 })) {
-              await mealLink.click();
+              await mealLink.click({ timeout: 5000 });
               await page.waitForTimeout(5000);
               
               const mealText = await page.innerText('body');
@@ -95,7 +107,7 @@ const fs = require('fs');
                 debug.push(`${hall.name} - ${dateString} - ${meal}: no churros`);
               }
               
-              await page.click('text=Back');
+              await page.click('text=Back', { timeout: 5000 });
               await page.waitForTimeout(3000);
             } else {
               debug.push(`${hall.name} - ${dateString} - ${meal}: not available`);
@@ -118,9 +130,10 @@ const fs = require('fs');
       }
     }
     
+    clearTimeout(timeout);
     await browser.close();
     
-    // Send Discord notification if churros found today
+    // Send Discord notification ONLY if churros found TODAY
     if (hasTodayChurros) {
       const todayChurro = futureChurros.find(fc => fc.isToday);
       const message = `🎉 **CHURROS ALERT!** 🎉\n\nChurros are available TODAY at **${todayChurro.location}** for **${todayChurro.meal}**!\n\nCheck the menu: https://saapps.niu.edu/NetNutrition/menus`;
@@ -139,6 +152,7 @@ const fs = require('fs');
     fs.writeFileSync('churro-result.json', JSON.stringify(result, null, 2));
     
   } catch (error) {
+    if (timeout) clearTimeout(timeout);
     fs.writeFileSync('churro-result.json', JSON.stringify({ 
       error: error.message, 
       timestamp: new Date().toISOString(),
