@@ -1,4 +1,23 @@
 const { chromium } = require('playwright');
+async function sendDiscordNotification(message) {
+  const webhookUrl = process.env.DISCORD_WEBHOOK;
+  if (!webhookUrl) return;
+  
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: message,
+        username: 'Churro Checker',
+        avatar_url: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/taco_1f32e.png'
+      })
+    });
+  } catch (err) {
+    console.log('Discord notification failed:', err.message);
+  }
+}
+
 const fs = require('fs');
 
 (async () => {
@@ -100,6 +119,19 @@ const fs = require('fs');
     }
     
     await browser.close();
+    
+    // Send Discord notification if churros found today
+    if (hasTodayChurros) {
+      const todayChurro = futureChurros.find(fc => fc.isToday);
+      const message = `🎉 **CHURROS ALERT!** 🎉\n\nChurros are available TODAY at **${todayChurro.location}** for **${todayChurro.meal}**!\n\nCheck the menu: https://saapps.niu.edu/NetNutrition/menus`;
+      await sendDiscordNotification(message);
+      debug.push('Discord notification sent!');
+    } else if (futureChurros.length > 0) {
+      const nextChurro = futureChurros[0];
+      const message = `🔮 **Upcoming Churros!**\n\nNext churros: **${nextChurro.location}** on **${nextChurro.date}** for **${nextChurro.meal}**`;
+      await sendDiscordNotification(message);
+      debug.push('Discord notification sent for future churros');
+    }
     
     const result = { 
       hasChurros: hasTodayChurros,
