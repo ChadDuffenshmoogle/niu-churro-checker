@@ -22,6 +22,8 @@ jobs:
           npx playwright install chromium
       
       - name: Check for churros
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: node check-churros-playwright.js
       
       - name: Commit results
