@@ -25,55 +25,74 @@ const fs = require('fs');
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                    'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    // Get all visible dates on the page
+    const pageText = await page.innerText('body');
+    const dateRegex = /(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/g;
+    const foundDates = [...pageText.matchAll(dateRegex)].map(m => m[0]);
+    
+    debug.push(`Found ${foundDates.length} dates on page: ${foundDates.join('; ')}`);
+    
     const todayString = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+    debug.push(`Today is: ${todayString}`);
     
-    debug.push(`Looking for: ${todayString}`);
-    
-    let hasChurros = false;
+    let hasTodayChurros = false;
+    let futureChurros = [];
     const meals = ['Breakfast', 'Lunch', 'Dinner'];
     
-    // Find today's row, then get meal links from that row
-    const todayRow = page.locator(`td:has-text("${todayString}")`).first();
-    
-    for (const meal of meals) {
-      try {
-        debug.push(`Checking ${meal}...`);
-        
-        // Find the meal link within today's row
-        const mealLink = todayRow.locator(`..`).locator(`a:has-text("${meal}")`).first();
-        
-        if (await mealLink.isVisible({ timeout: 2000 })) {
-          await mealLink.click();
-          await page.waitForTimeout(5000);
+    // Check each date
+    for (const dateString of foundDates) {
+      const isToday = dateString === todayString;
+      debug.push(`\n--- Checking ${isToday ? 'TODAY' : dateString} ---`);
+      
+      const dateRow = page.locator(`td:has-text("${dateString}")`).first();
+      
+      for (const meal of meals) {
+        try {
+          const mealLink = dateRow.locator(`..`).locator(`a:has-text("${meal}")`).first();
           
-          const mealText = await page.innerText('body');
-          debug.push(`${meal}: loaded, checking for churros...`);
-          
-          if (mealText.toLowerCase().includes('churro')) {
-            hasChurros = true;
-            debug.push(`🎉 CHURROS FOUND IN ${meal.toUpperCase()}! 🎉`);
-            break;
+          if (await mealLink.isVisible({ timeout: 2000 })) {
+            await mealLink.click();
+            await page.waitForTimeout(5000);
+            
+            const mealText = await page.innerText('body');
+            
+            if (mealText.toLowerCase().includes('churro')) {
+              debug.push(`🎉 ${dateString} - ${meal}: CHURROS FOUND!`);
+              
+              if (isToday) {
+                hasTodayChurros = true;
+              } else {
+                futureChurros.push({ date: dateString, meal: meal });
+              }
+            } else {
+              debug.push(`${dateString} - ${meal}: no churros`);
+            }
+            
+            await page.click('text=Back');
+            await page.waitForTimeout(3000);
           } else {
-            debug.push(`${meal}: no churros`);
+            debug.push(`${dateString} - ${meal}: not available`);
           }
           
-          // Go back to menu list
-          await page.click('text=Back');
-          await page.waitForTimeout(3000);
-        } else {
-          debug.push(`${meal}: not available`);
+        } catch (err) {
+          debug.push(`${dateString} - ${meal}: error - ${err.message}`);
         }
-        
-      } catch (err) {
-        debug.push(`${meal}: error - ${err.message}`);
+      }
+      
+      // If we found churros today, no need to check future days
+      if (hasTodayChurros) {
+        debug.push('Found churros today, stopping search');
+        break;
       }
     }
     
     await browser.close();
     
     const result = { 
-      hasChurros, 
-      hasTodayDate: true,
+      hasChurros: hasTodayChurros,
+      hasTodayDate: foundDates.includes(todayString),
+      futureChurros: futureChurros,
       dateChecked: todayString, 
       timestamp: new Date().toISOString(), 
       debug
