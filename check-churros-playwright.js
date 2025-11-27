@@ -126,11 +126,6 @@ const fs = require('fs');
       const message = `🎉 **CHURROS ALERT!** 🎉\n\nChurros are available TODAY at **${todayChurro.location}** for **${todayChurro.meal}**!\n\nCheck the menu: https://saapps.niu.edu/NetNutrition/menus`;
       await sendDiscordNotification(message);
       debug.push('Discord notification sent!');
-    } else if (futureChurros.length > 0) {
-      const nextChurro = futureChurros[0];
-      const message = `🔮 **Upcoming Churros!**\n\nNext churros: **${nextChurro.location}** on **${nextChurro.date}** for **${nextChurro.meal}**`;
-      await sendDiscordNotification(message);
-      debug.push('Discord notification sent for future churros');
     }
     
     const result = { 
