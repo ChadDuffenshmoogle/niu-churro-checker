@@ -2,7 +2,7 @@ name: Check for Churros
 
 on:
   schedule:
-    - cron: '0 */1 * * *'
+    - cron: '0 12 * * *'  # Once daily at 12pm UTC (6am CST)
   workflow_dispatch:
 
 jobs:
