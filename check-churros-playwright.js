@@ -57,7 +57,7 @@ const fs = require('fs');
             
             const mealText = await page.innerText('body');
             
-            if (mealText.toLowerCase().includes('pork')) {
+            if (mealText.toLowerCase().includes('churro')) {
               debug.push(`🎉 ${dateString} - ${meal}: CHURROS FOUND!`);
               
               if (isToday) {
