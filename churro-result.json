@@ -1,9 +1,18 @@
 {
   "hasChurros": false,
   "hasTodayDate": false,
-  "futureChurros": [],
+  "futureChurros": [
+    {
+      "date": "Tuesday, December 2, 2025",
+      "meal": "Breakfast"
+    },
+    {
+      "date": "Tuesday, December 2, 2025",
+      "meal": "Lunch"
+    }
+  ],
   "dateChecked": "Thursday, November 27, 2025",
-  "timestamp": "2025-11-27T05:49:02.423Z",
+  "timestamp": "2025-11-27T06:00:14.388Z",
   "debug": [
     "Starting browser...",
     "Navigating...",
@@ -20,8 +29,8 @@
     "Monday, December 1, 2025 - Lunch: no churros",
     "Monday, December 1, 2025 - Dinner: no churros",
     "\n--- Checking Tuesday, December 2, 2025 ---",
-    "Tuesday, December 2, 2025 - Breakfast: no churros",
-    "Tuesday, December 2, 2025 - Lunch: no churros",
+    "🎉 Tuesday, December 2, 2025 - Breakfast: CHURROS FOUND!",
+    "🎉 Tuesday, December 2, 2025 - Lunch: CHURROS FOUND!",
     "Tuesday, December 2, 2025 - Dinner: no churros"
   ]
 }
