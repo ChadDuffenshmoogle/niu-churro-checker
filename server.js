@@ -48,7 +48,7 @@ app.get('/check', async (req, res) => {
     debug.push(`Looking for date: ${todayString}`);
     
     const textLower = pageText.toLowerCase();
-    const hasChurros = textLower.includes('churro');
+    const hasChurros = textLower.includes('shrimp');
     const hasTodayDate = textLower.includes(todayString.toLowerCase());
     
     debug.push(`Has churros: ${hasChurros}`);
