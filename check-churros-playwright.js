@@ -94,7 +94,7 @@ async function sendDiscordNotification(message) {
               
               const mealText = await page.innerText('body');
               
-              if (mealText.toLowerCase().includes('churro')) {
+              if (mealText.toLowerCase().includes('shrimp')) {
                 debug.push(`🦐 ${hall.name} - ${dateString} - ${meal}: SHRIMP FOUND!`);
                 
                 if (isToday) {
@@ -104,7 +104,7 @@ async function sendDiscordNotification(message) {
                   futureChurros.push({ location: hall.name, date: dateString, meal: meal, isToday: false });
                 }
               } else {
-                debug.push(`${hall.name} - ${dateString} - ${meal}: no churros`);
+                debug.push(`${hall.name} - ${dateString} - ${meal}: no shrimp`);
               }
               
               await page.click('text=Back', { timeout: 5000 });
@@ -125,7 +125,7 @@ async function sendDiscordNotification(message) {
       }
       
       if (hasTodayChurros) {
-        debug.push('Found churros today, stopping all searches');
+        debug.push('Found shrimp today, stopping all searches');
         break;
       }
     }
@@ -136,7 +136,7 @@ async function sendDiscordNotification(message) {
     // Send Discord notification ONLY if churros found TODAY
     if (hasTodayChurros) {
       const todayChurro = futureChurros.find(fc => fc.isToday);
-      const message = `🦐 **SHRIMP ALERT!** 🦐\Shrimp is available TODAY at **${todayChurro.location}** for **${todayChurro.meal}**!\nCheck the menu: https://saapps.niu.edu/NetNutrition/menus`;
+      const message = `🦐 **SHRIMP ALERT!** 🦐\nShrimp is available TODAY at **${todayChurro.location}** for **${todayChurro.meal}**!\nCheck the menu: https://saapps.niu.edu/NetNutrition/menus`;
       await sendDiscordNotification(message);
       debug.push('Discord notification sent!');
     }
