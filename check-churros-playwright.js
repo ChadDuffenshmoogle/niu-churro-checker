@@ -70,13 +70,26 @@ async function sendDiscordNotification(message) {
       
       debug.push(`Clicking ${hall.submenu}...`);
       await page.click(`text=${hall.submenu}`, { timeout: 10000 });
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(3000);
       
       const pageText = await page.innerText('body');
+      
+      // OFF-SEASON / NO MENUS SAFETY CHECK
+      if (pageText.includes('There are no menus available for this location')) {
+        debug.push(`${hall.name}: No menus available (likely not in school year). Skipping hall.`);
+        continue; // move to next dining hall immediately
+      }
+      
       const dateRegex = /(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/g;
       const foundDates = [...pageText.matchAll(dateRegex)].map(m => m[0]);
       
+      if (foundDates.length === 0) {
+        debug.push(`${hall.name}: Menu loaded but no dates found. Skipping hall.`);
+        continue;
+      }
+      
       debug.push(`${hall.name}: Found ${foundDates.length} dates: ${foundDates.join('; ')}`);
+
       
       for (const dateString of foundDates) {
         const isToday = dateString === todayString;
