@@ -91,7 +91,15 @@ async function sendDiscordNotification(message) {
       debug.push(`${hall.name}: Found ${foundDates.length} dates: ${foundDates.join('; ')}`);
 
       
-      for (const dateString of foundDates) {
+      // Only check today to avoid timeout
+      const todayDates = foundDates.filter(d => d === todayString);
+      if (todayDates.length === 0) {
+        debug.push(`${hall.name}: Today's date (${todayString}) not found on menu. Skipping hall.`);
+        continue;
+      }
+      
+      debug.push(`${hall.name}: Checking only today's meals`);
+      for (const dateString of todayDates) {
         const isToday = dateString === todayString;
         debug.push(`\n--- ${hall.name}: Checking ${isToday ? 'TODAY' : dateString} ---`);
         
