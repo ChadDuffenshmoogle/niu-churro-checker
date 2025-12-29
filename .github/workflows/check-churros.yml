@@ -2,7 +2,7 @@ name: Check for Churros
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # Once daily at 12pm UTC (6am CST)
+    - cron: '0 12 * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,10 +16,16 @@ jobs:
         with:
           node-version: '18'
       
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      
       - name: Install Playwright
         run: |
           npm install playwright
-          npx playwright install chromium
+          npx playwright install chromium --with-deps
       
       - name: Check for churros
         env:
