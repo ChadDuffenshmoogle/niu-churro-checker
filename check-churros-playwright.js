@@ -1,4 +1,4 @@
-const { chromium } = require('playwright');
+const https = require('https');
 const fs = require('fs');
 
 async function sendDiscordNotification(message) {
@@ -6,13 +6,12 @@ async function sendDiscordNotification(message) {
   if (!webhookUrl) return;
   
   try {
-    const response = await fetch(webhookUrl, {
+    await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         content: message,
-        username: 'Shrimp Checker',
-        avatar_url: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/taco_1f32e.png'
+        username: 'Shrimp Checker'
       })
     });
   } catch (err) {
@@ -20,164 +19,44 @@ async function sendDiscordNotification(message) {
   }
 }
 
+function fetchPage(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(data));
+    }).on('error', reject);
+  });
+}
+
 (async () => {
-  const debug = [];
-  let timeout;
+  console.log('Checking for shrimp...');
   
   try {
-    // Set max runtime - abort after 10 minutes
-    timeout = setTimeout(() => {
-      debug.push('TIMEOUT: Aborting after 10 minutes');
-      fs.writeFileSync('churro-result.json', JSON.stringify({ 
-        error: 'Timeout after 10 minutes',
-        timestamp: new Date().toISOString(),
-        debug
-      }, null, 2));
-      process.exit(1);
-    }, 10 * 60 * 1000);
+    const html = await fetchPage('https://saapps.niu.edu/NetNutrition/menus');
+    const hasShrimp = html.toLowerCase().includes('shrimp');
     
-    debug.push('Starting browser...');
-    const browser = await chromium.launch({ timeout: 60000 });
-    const page = await browser.newPage();
-    
-    const today = new Date();
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                   'July', 'August', 'September', 'October', 'November', 'December'];
-    const todayString = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
-    
-    debug.push(`Today is: ${todayString}`);
-    
-    let hasTodayChurros = false;
-    let futureChurros = [];
-    const meals = ['Breakfast', 'Lunch', 'Dinner'];
-    
-    const diningHalls = [
-      { name: 'Neptune', link: 'Neptune Dining', submenu: 'Neptune Daily Menu' },
-      { name: 'Patterson', link: 'Patterson Dining', submenu: 'Patterson Daily Menu' }
-    ];
-    
-    for (const hall of diningHalls) {
-      debug.push(`\n========== CHECKING ${hall.name.toUpperCase()} ==========`);
-      
-      debug.push('Navigating to main page...');
-      await page.goto('https://saapps.niu.edu/NetNutrition/menus', { waitUntil: 'networkidle', timeout: 30000 });
-      await page.waitForTimeout(3000);
-      
-      debug.push(`Clicking ${hall.link}...`);
-      await page.click(`text=${hall.link}`, { timeout: 10000 });
-      await page.waitForTimeout(3000);
-      
-      debug.push(`Clicking ${hall.submenu}...`);
-      await page.click(`text=${hall.submenu}`, { timeout: 10000 });
-      await page.waitForTimeout(3000);
-      
-      const pageText = await page.innerText('body');
-      
-      // OFF-SEASON / NO MENUS SAFETY CHECK
-      if (pageText.includes('There are no menus available for this location')) {
-        debug.push(`${hall.name}: No menus available (likely not in school year). Skipping hall.`);
-        continue; // move to next dining hall immediately
-      }
-      
-      const dateRegex = /(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/g;
-      const foundDates = [...pageText.matchAll(dateRegex)].map(m => m[0]);
-      
-      if (foundDates.length === 0) {
-        debug.push(`${hall.name}: Menu loaded but no dates found. Skipping hall.`);
-        continue;
-      }
-      
-      debug.push(`${hall.name}: Found ${foundDates.length} dates: ${foundDates.join('; ')}`);
-
-      
-      // Only check today to avoid timeout
-      const todayDates = foundDates.filter(d => d === todayString);
-      if (todayDates.length === 0) {
-        debug.push(`${hall.name}: Today's date (${todayString}) not found on menu. Skipping hall.`);
-        continue;
-      }
-      
-      debug.push(`${hall.name}: Checking only today's meals`);
-      for (const dateString of todayDates) {
-        const isToday = dateString === todayString;
-        debug.push(`\n--- ${hall.name}: Checking ${isToday ? 'TODAY' : dateString} ---`);
-        
-        const dateRow = page.locator(`td:has-text("${dateString}")`).first();
-        
-        for (const meal of meals) {
-          try {
-            const mealLink = dateRow.locator(`..`).locator(`a:has-text("${meal}")`).first();
-            
-            if (await mealLink.isVisible({ timeout: 2000 })) {
-              await mealLink.click({ timeout: 5000 });
-              await page.waitForTimeout(5000);
-              
-              const mealText = await page.innerText('body');
-              
-              if (mealText.toLowerCase().includes('shrimp')) {
-                debug.push(`🦐 ${hall.name} - ${dateString} - ${meal}: SHRIMP FOUND!`);
-                
-                if (isToday) {
-                  hasTodayChurros = true;
-                  futureChurros.unshift({ location: hall.name, date: dateString, meal: meal, isToday: true });
-                } else {
-                  futureChurros.push({ location: hall.name, date: dateString, meal: meal, isToday: false });
-                }
-              } else {
-                debug.push(`${hall.name} - ${dateString} - ${meal}: no shrimp`);
-              }
-              
-              await page.click('text=Back', { timeout: 5000 });
-              await page.waitForTimeout(3000);
-            } else {
-              debug.push(`${hall.name} - ${dateString} - ${meal}: not available`);
-            }
-            
-          } catch (err) {
-            debug.push(`${hall.name} - ${dateString} - ${meal}: error - ${err.message}`);
-          }
-        }
-        
-        if (hasTodayChurros) {
-          debug.push(`Found shrimp today at ${hall.name}, stopping search for this hall`);
-          break;
-        }
-      }
-      
-      if (hasTodayChurros) {
-        debug.push('Found shrimp today, stopping all searches');
-        break;
-      }
-    }
-    
-    clearTimeout(timeout);
-    await browser.close();
-    
-    // Send Discord notification ONLY if churros found TODAY
-    if (hasTodayChurros) {
-      const todayChurro = futureChurros.find(fc => fc.isToday);
-      const message = `🦐 **SHRIMP ALERT!** 🦐\nShrimp is available TODAY at **${todayChurro.location}** for **${todayChurro.meal}**!\nCheck the menu: https://saapps.niu.edu/NetNutrition/menus`;
-      await sendDiscordNotification(message);
-      debug.push('Discord notification sent!');
-    }
-    
-    const result = { 
-      hasChurros: hasTodayChurros,
-      hasTodayDate: true,
-      futureChurros: futureChurros,
-      dateChecked: todayString, 
-      timestamp: new Date().toISOString(), 
-      debug
+    const result = {
+      hasChurros: hasShrimp,
+      dateChecked: new Date().toISOString(),
+      timestamp: new Date().toISOString(),
+      method: 'simple-http'
     };
+    
+    if (hasShrimp) {
+      console.log('SHRIMP FOUND!');
+      await sendDiscordNotification('🦐 **SHRIMP DETECTED!** Check https://saapps.niu.edu/NetNutrition/menus');
+    } else {
+      console.log('No shrimp found');
+    }
+    
     fs.writeFileSync('churro-result.json', JSON.stringify(result, null, 2));
     
   } catch (error) {
-    if (timeout) clearTimeout(timeout);
-    fs.writeFileSync('churro-result.json', JSON.stringify({ 
-      error: error.message, 
-      timestamp: new Date().toISOString(),
-      debug: [...debug, `ERROR: ${error.message}`]
+    console.error('Error:', error);
+    fs.writeFileSync('churro-result.json', JSON.stringify({
+      error: error.message,
+      timestamp: new Date().toISOString()
     }, null, 2));
   }
 })();
