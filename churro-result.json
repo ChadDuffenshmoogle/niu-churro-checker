@@ -1,6 +1,31 @@
 {
-  "hasChurros": false,
-  "dateChecked": "2025-12-31T22:52:20.781Z",
-  "timestamp": "2025-12-31T22:52:20.781Z",
-  "method": "simple-http"
+  "hasChurros": true,
+  "hasTodayDate": true,
+  "futureChurros": [
+    {
+      "location": "Neptune",
+      "date": "Friday, January 16, 2026",
+      "meal": "Dinner",
+      "isToday": true
+    }
+  ],
+  "dateChecked": "Friday, January 16, 2026",
+  "timestamp": "2026-01-16T13:02:12.383Z",
+  "debug": [
+    "Starting browser...",
+    "Today is: Friday, January 16, 2026",
+    "\n========== CHECKING NEPTUNE ==========",
+    "Navigating to main page...",
+    "Clicking Neptune Dining...",
+    "Clicking Neptune Daily Menu...",
+    "Neptune: Found 8 dates",
+    "Neptune: Checking only today's meals",
+    "\n--- Neptune: Checking TODAY ---",
+    "Neptune - Breakfast: no shrimp",
+    "Neptune - Lunch: no shrimp",
+    "🦐 Neptune - Dinner: SHRIMP FOUND!",
+    "Found shrimp today at Neptune, stopping search",
+    "Found shrimp today, stopping all searches",
+    "Discord notification sent!"
+  ]
 }
