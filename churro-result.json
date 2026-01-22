@@ -4,16 +4,16 @@
   "futureChurros": [
     {
       "location": "Neptune",
-      "date": "Friday, January 16, 2026",
-      "meal": "Dinner",
+      "date": "Thursday, January 22, 2026",
+      "meal": "Lunch",
       "isToday": true
     }
   ],
-  "dateChecked": "Friday, January 16, 2026",
-  "timestamp": "2026-01-16T13:02:12.383Z",
+  "dateChecked": "Thursday, January 22, 2026",
+  "timestamp": "2026-01-22T13:07:48.174Z",
   "debug": [
     "Starting browser...",
-    "Today is: Friday, January 16, 2026",
+    "Today is: Thursday, January 22, 2026",
     "\n========== CHECKING NEPTUNE ==========",
     "Navigating to main page...",
     "Clicking Neptune Dining...",
@@ -22,8 +22,8 @@
     "Neptune: Checking only today's meals",
     "\n--- Neptune: Checking TODAY ---",
     "Neptune - Breakfast: no shrimp",
-    "Neptune - Lunch: no shrimp",
-    "🦐 Neptune - Dinner: SHRIMP FOUND!",
+    "🦐 Neptune - Lunch: SHRIMP FOUND!",
+    "Neptune - Dinner: no shrimp",
     "Found shrimp today at Neptune, stopping search",
     "Found shrimp today, stopping all searches",
     "Discord notification sent!"
