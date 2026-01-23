@@ -1,0 +1,21 @@
+{
+  "foundFoods": [],
+  "dateChecked": "Friday, January 23, 2026",
+  "timestamp": "2026-01-23T06:01:03.968Z",
+  "debug": [
+    "Starting browser...",
+    "Today is: Friday, January 23, 2026",
+    "Looking for: shrimp, churro, tres leches, leches",
+    "\n========== CHECKING NEPTUNE ==========",
+    "Navigating to main page...",
+    "Clicking Neptune Dining...",
+    "Clicking Neptune Daily Menu...",
+    "Neptune: Checking only today",
+    "\n========== CHECKING PATTERSON ==========",
+    "Navigating to main page...",
+    "Clicking Patterson Dining...",
+    "Patterson: Hall error - page.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('text=Patterson Dining')\n",
+    "Browser closed successfully",
+    "No target foods found today"
+  ]
+}
