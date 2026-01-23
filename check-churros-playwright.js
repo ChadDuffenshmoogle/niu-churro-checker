@@ -2,7 +2,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 // ADD MORE FOODS HERE - lowercase only
-const FOODS_TO_CHECK = ['shrimp', 'churro'];
+const FOODS_TO_CHECK = ['leches'];
 
 async function sendDiscordNotification(message) {
   const webhookUrl = process.env.DISCORD_WEBHOOK;
