@@ -1,9 +1,9 @@
-name: Check for Churros
+name: Check for Foods
 
 on:
   schedule:
-    - cron: '0 12 * * *'
-  workflow_dispatch:
+    - cron: '0 12 * * *'  # Runs at noon UTC daily
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   check:
@@ -27,7 +27,7 @@ jobs:
           npm install playwright
           npx playwright install chromium
       
-      - name: Check for churros
+      - name: Check for foods
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: node check-churros-playwright.js
@@ -36,6 +36,5 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add churro-result.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update churro status"
-          git push
+          git add food-result.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update food status - $(date)" && git push)
