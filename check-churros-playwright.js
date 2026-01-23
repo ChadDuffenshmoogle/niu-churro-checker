@@ -1,8 +1,13 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 
-// ADD MORE FOODS HERE - lowercase only
-const FOODS_TO_CHECK = ['leches'];
+// CONFIGURE YOUR FOODS HERE
+const FOODS_CONFIG = {
+  'shrimp': { emoji: '🦐', alertName: 'SHRIMP ALERT' },
+  'churro': { emoji: '🍩', alertName: 'CHURRO ALERT' },
+  'tres leches': { emoji: '🍰', alertName: 'TRES LECHES ALERT' },
+  'leches': { emoji: '🍰', alertName: 'TRES LECHES ALERT' }
+};
 
 async function sendDiscordNotification(message) {
   const webhookUrl = process.env.DISCORD_WEBHOOK;
@@ -45,7 +50,7 @@ async function sendDiscordNotification(message) {
     const todayString = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
     
     debug.push(`Today is: ${todayString}`);
-    debug.push(`Looking for: ${FOODS_TO_CHECK.join(', ')}`);
+    debug.push(`Looking for: ${Object.keys(FOODS_CONFIG).join(', ')}`);
     
     let foundFoods = [];
     const meals = ['Breakfast', 'Lunch', 'Dinner'];
@@ -86,7 +91,6 @@ async function sendDiscordNotification(message) {
           continue;
         }
         
-        // CRITICAL: Only check today
         const todayDates = foundDates.filter(d => d === todayString);
         if (todayDates.length === 0) {
           debug.push(`${hall.name}: Today not found on menu. Skipping.`);
@@ -108,21 +112,25 @@ async function sendDiscordNotification(message) {
               const mealText = await page.innerText('body');
               const mealTextLower = mealText.toLowerCase();
               
-              // Check each food
-              for (const food of FOODS_TO_CHECK) {
-                if (mealTextLower.includes(food)) {
+              // Check each configured food
+              for (const [foodKey, foodConfig] of Object.entries(FOODS_CONFIG)) {
+                if (mealTextLower.includes(foodKey)) {
                   // Extract the full item name
                   const lines = mealText.split('\n');
-                  const matchingItems = lines.filter(line => line.toLowerCase().includes(food) && line.trim().length > 0);
+                  const matchingItems = lines.filter(line => 
+                    line.toLowerCase().includes(foodKey) && line.trim().length > 0
+                  );
                   
-                  const itemName = matchingItems[0] || food;
+                  const itemName = matchingItems[0] || foodKey;
                   
-                  debug.push(`🎉 ${hall.name} - ${meal}: Found ${itemName}`);
+                  debug.push(`${foodConfig.emoji} ${hall.name} - ${meal}: Found ${itemName}`);
                   foundFoods.push({
-                    food: food,
+                    searchKey: foodKey,
                     itemName: itemName.trim(),
                     location: hall.name,
-                    meal: meal
+                    meal: meal,
+                    emoji: foodConfig.emoji,
+                    alertName: foodConfig.alertName
                   });
                 }
               }
@@ -145,14 +153,32 @@ async function sendDiscordNotification(message) {
     await browser.close();
     debug.push('Browser closed successfully');
     
-    // Send notifications
+    // Send individual notifications for each food type
     if (foundFoods.length > 0) {
-      const messages = foundFoods.map(f => 
-        `🎉 **${f.itemName}** at **${f.location}** for **${f.meal}**!`
-      ).join('\n');
+      // Group by food type
+      const groupedByFood = {};
+      for (const food of foundFoods) {
+        if (!groupedByFood[food.searchKey]) {
+          groupedByFood[food.searchKey] = [];
+        }
+        groupedByFood[food.searchKey].push(food);
+      }
       
-      await sendDiscordNotification(`**FOOD ALERT!**\n\n${messages}\n\nCheck: https://saapps.niu.edu/NetNutrition/menus`);
-      debug.push('Discord notification sent!');
+      // Send a notification for each food type
+      for (const [foodKey, items] of Object.entries(groupedByFood)) {
+        const firstItem = items[0];
+        const locations = items.map(f => 
+          `${f.emoji} **${f.itemName}** at **${f.location}** for **${f.meal}**`
+        ).join('\n');
+        
+        const message = `${firstItem.emoji} **${firstItem.alertName}!** ${firstItem.emoji}\n\n${locations}\n\nCheck: https://saapps.niu.edu/NetNutrition/menus`;
+        
+        await sendDiscordNotification(message);
+        debug.push(`Discord notification sent for ${foodKey}!`);
+        
+        // Small delay between notifications
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
     } else {
       debug.push('No target foods found today');
     }
