@@ -4,8 +4,6 @@ const fs = require('fs');
 // CONFIGURE YOUR FOODS HERE
 const FOODS_CONFIG = {
   'shrimp': { emoji: '🦐', alertName: 'SHRIMP ALERT' },
-  'churro': { emoji: '🍩', alertName: 'CHURRO ALERT' },
-  'tres leches': { emoji: '🍰', alertName: 'TRES LECHES ALERT' },
   'leches': { emoji: '🍰', alertName: 'TRES LECHES ALERT' }
 };
 
@@ -171,7 +169,7 @@ async function sendDiscordNotification(message) {
           `${f.emoji} **${f.itemName}** at **${f.location}** for **${f.meal}**`
         ).join('\n');
         
-        const message = `${firstItem.emoji} **${firstItem.alertName}!** ${firstItem.emoji}\n\n${locations}\n\nCheck: https://saapps.niu.edu/NetNutrition/menus`;
+        const message = `${firstItem.emoji} **${firstItem.alertName}!** ${firstItem.emoji}\n${locations}\nCheck: https://saapps.niu.edu/NetNutrition/menus`;
         
         await sendDiscordNotification(message);
         debug.push(`Discord notification sent for ${foodKey}!`);
