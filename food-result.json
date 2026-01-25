@@ -1,32 +1,22 @@
 {
-  "foundFoods": [
-    {
-      "searchKey": "churro",
-      "itemName": "Baked Chocolate Filled Churros\tHalf",
-      "location": "Neptune",
-      "meal": "Dinner",
-      "emoji": "🍩",
-      "alertName": "CHURRO ALERT"
-    }
-  ],
+  "foundFoods": [],
   "dateChecked": "Sunday, January 25, 2026",
-  "timestamp": "2026-01-25T12:54:48.831Z",
+  "timestamp": "2026-01-25T21:55:03.921Z",
   "debug": [
     "Starting browser...",
     "Today is: Sunday, January 25, 2026",
-    "Looking for: shrimp, churro, tres leches, leches",
+    "Looking for: shrimp, leches",
     "\n========== CHECKING NEPTUNE ==========",
     "Navigating to main page...",
     "Clicking Neptune Dining...",
     "Clicking Neptune Daily Menu...",
     "Neptune: Checking only today",
     "Neptune - Breakfast: not available",
-    "🍩 Neptune - Dinner: Found \tBaked Chocolate Filled Churros\tHalf\t",
     "\n========== CHECKING PATTERSON ==========",
     "Navigating to main page...",
     "Clicking Patterson Dining...",
     "Patterson: Hall error - page.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('text=Patterson Dining')\n",
     "Browser closed successfully",
-    "Discord notification sent for churro!"
+    "No target foods found today"
   ]
 }
