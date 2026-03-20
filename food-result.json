@@ -1,31 +1,21 @@
 {
-  "foundFoods": [
-    {
-      "searchKey": "shrimp",
-      "itemName": "Fried Popcorn Shrimp\t3 oz.",
-      "location": "Neptune",
-      "meal": "Lunch",
-      "emoji": "🦐",
-      "alertName": "SHRIMP ALERT"
-    }
-  ],
-  "dateChecked": "Thursday, March 19, 2026",
-  "timestamp": "2026-03-19T13:19:11.541Z",
+  "foundFoods": [],
+  "dateChecked": "Friday, March 20, 2026",
+  "timestamp": "2026-03-20T13:12:26.268Z",
   "debug": [
     "Starting browser...",
-    "Today is: Thursday, March 19, 2026",
+    "Today is: Friday, March 20, 2026",
     "Looking for: shrimp, leches",
     "\n========== CHECKING NEPTUNE ==========",
     "Navigating to main page...",
     "Clicking Neptune Dining...",
     "Clicking Neptune Daily Menu...",
     "Neptune: Checking only today",
-    "🦐 Neptune - Lunch: Found \tFried Popcorn Shrimp\t3 oz.\t",
     "\n========== CHECKING PATTERSON ==========",
     "Navigating to main page...",
     "Clicking Patterson Dining...",
     "Patterson: Hall error - page.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('text=Patterson Dining')\n",
     "Browser closed successfully",
-    "Discord notification sent for shrimp!"
+    "No target foods found today"
   ]
 }
