@@ -1,10 +1,10 @@
 {
   "foundFoods": [],
-  "dateChecked": "Sunday, May 31, 2026",
-  "timestamp": "2026-05-31T13:56:42.029Z",
+  "dateChecked": "Monday, June 1, 2026",
+  "timestamp": "2026-06-01T17:51:55.579Z",
   "debug": [
     "Starting browser...",
-    "Today is: Sunday, May 31, 2026",
+    "Today is: Monday, June 1, 2026",
     "Looking for: shrimp, leches",
     "\n========== CHECKING NEPTUNE ==========",
     "Navigating to main page...",
