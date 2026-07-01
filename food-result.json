@@ -1,17 +1,20 @@
 {
   "foundFoods": [],
-  "dateChecked": "Tuesday, June 30, 2026",
-  "timestamp": "2026-06-30T14:29:56.859Z",
+  "dateChecked": "Wednesday, July 1, 2026",
+  "timestamp": "2026-07-01T14:47:46.282Z",
   "debug": [
     "Starting browser...",
-    "Today is: Tuesday, June 30, 2026",
+    "Today is: Wednesday, July 1, 2026",
     "Looking for: shrimp, leches",
     "\n========== CHECKING NEPTUNE ==========",
     "Navigating to main page...",
-    "Neptune: Hall error - page.goto: net::ERR_CONNECTION_REFUSED at https://saapps.niu.edu/NetNutrition/menus\nCall log:\n  - navigating to \"https://saapps.niu.edu/NetNutrition/menus\", waiting until \"networkidle\"\n",
+    "Clicking Neptune Dining...",
+    "Clicking Neptune Daily Menu...",
+    "Neptune: Today not found on menu. Skipping.",
     "\n========== CHECKING PATTERSON ==========",
     "Navigating to main page...",
-    "Patterson: Hall error - page.goto: net::ERR_CONNECTION_REFUSED at https://saapps.niu.edu/NetNutrition/menus\nCall log:\n  - navigating to \"https://saapps.niu.edu/NetNutrition/menus\", waiting until \"networkidle\"\n",
+    "Clicking Patterson Dining...",
+    "Patterson: Hall error - page.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('text=Patterson Dining')\n",
     "Browser closed successfully",
     "No target foods found today"
   ]
