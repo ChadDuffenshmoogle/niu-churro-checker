@@ -1,10 +1,10 @@
 {
   "foundFoods": [],
-  "dateChecked": "Saturday, August 22, 2026",
-  "timestamp": "2026-08-22T12:48:33.605Z",
+  "dateChecked": "Sunday, August 23, 2026",
+  "timestamp": "2026-08-23T12:49:37.986Z",
   "debug": [
     "Starting browser...",
-    "Today is: Saturday, August 22, 2026",
+    "Today is: Sunday, August 23, 2026",
     "Looking for: shrimp, leches",
     "\n========== CHECKING NEPTUNE ==========",
     "Navigating to main page...",
@@ -12,6 +12,7 @@
     "Clicking Neptune Daily Menu...",
     "Neptune: Checking only today",
     "Neptune - Breakfast: not available",
+    "Neptune - Dinner: not available",
     "\n========== CHECKING PATTERSON ==========",
     "Navigating to main page...",
     "Clicking Patterson Dining...",
